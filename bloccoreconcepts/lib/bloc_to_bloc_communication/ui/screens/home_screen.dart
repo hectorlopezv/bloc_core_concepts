@@ -1,6 +1,8 @@
+import 'package:bloccoreconcepts/bloc_to_bloc_communication/logic/cubit/counter_cubit.dart';
+import 'package:bloccoreconcepts/bloc_to_bloc_communication/logic/cubit/internet_cubit.dart';
+import 'package:bloccoreconcepts/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../logic/cubit/counter_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
   final Color colors;
@@ -18,6 +20,20 @@ class HomeScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          BlocBuilder<InternetCubit, InternetState>(
+            builder: (context, state) {
+              if (state is InternetConnected &&
+                  state.connectionType == ConnectionType.Wifi) {
+                return Text('Wifi');
+              } else if (state is InternetConnected &&
+                  state.connectionType == ConnectionType.Mobile) {
+                return Text('Mobile');
+              } else if (state is InternetDisconnected) {
+                return Text("Disconnected");
+              }
+              return CircularProgressIndicator();
+            },
+          ),
           Text(
             'You have pushed the button this many times:',
           ),
@@ -61,28 +77,6 @@ class HomeScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline4,
                 );
             },
-          ),
-          SizedBox(
-            height: 24,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              FloatingActionButton(
-                onPressed: () {
-                  BlocProvider.of<CounterCubit>(context).decrement();
-                },
-                tooltip: 'Decrement',
-                child: Icon(Icons.remove),
-              ),
-              FloatingActionButton(
-                onPressed: () {
-                  BlocProvider.of<CounterCubit>(context).increment();
-                },
-                tooltip: 'Increment',
-                child: Icon(Icons.add),
-              ),
-            ],
           ),
           MaterialButton(
             onPressed: () {
