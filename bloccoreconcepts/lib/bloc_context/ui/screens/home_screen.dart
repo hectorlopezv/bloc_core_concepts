@@ -115,7 +115,8 @@ class HomeScreen extends StatelessWidget {
               FloatingActionButton(
                 heroTag: Text('${title}'),
                 onPressed: () {
-                  BlocProvider.of<CounterCubit>(homeScreenContext).decrement();
+                 // BlocProvider.of<CounterCubit>(homeScreenContext).decrement();
+                  homeScreenContext.read<CounterCubit>().decrement();
                   // context.bloc<CounterCubit>().decrement();
                 },
                 tooltip: 'Decrement',
