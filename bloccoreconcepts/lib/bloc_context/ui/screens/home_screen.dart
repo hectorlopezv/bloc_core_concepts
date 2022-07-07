@@ -64,6 +64,7 @@ class HomeScreen extends StatelessWidget {
                 );
             },
           ),
+
           MaterialButton(
             onPressed: () {
               Navigator.of(homeScreenContext).pushNamed("/second");
@@ -78,7 +79,6 @@ class HomeScreen extends StatelessWidget {
           Builder(builder: (context) {
             final counterState = context.watch<CounterCubit>().state;
             final internetState = context.watch<InternetCubit>().state;
-            
 
             if (internetState is InternetConnected) {
               final connectionType = internetState.connectionType;
@@ -101,7 +101,14 @@ class HomeScreen extends StatelessWidget {
               height: 0,
             );
           }),
-
+          SizedBox(
+            height: 24,
+          ),
+          Builder(builder: (context) {
+            final counterValue = context
+                .select((CounterCubit cubit) => cubit.state.counterValue);
+            return Text("Counter: $counterValue");
+          }),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
